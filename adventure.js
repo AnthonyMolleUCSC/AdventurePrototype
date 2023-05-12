@@ -153,4 +153,24 @@ class AdventureScene extends Phaser.Scene {
         this.cameras.main.setBackgroundColor(color);
     }
 
+    spawnCultist(x, y)
+    {
+        let cultist = this.add.text(x, y, "🧙")
+            .setFontSize(this.s * 20)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("AHHH HE'S GONNA GET YOU!!!");
+            })
+            .on('pointerdown', () => {
+                    this.showMessage("Bonk!!");
+                    this.tweens.add({
+                        targets: cultist,
+                        angle: 359,
+                        alpha: { from: 1, to: 0 },
+                        duration: 500,
+                        onComplete: () => cultist.destroy()
+                    });
+            })
+    }
+
 }

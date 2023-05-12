@@ -98,6 +98,17 @@ class CultRoom extends AdventureScene {
     constructor() {
         super("cultroom", "You're surrounded by cultists trying to get you!");
     }
+    
+    onEnter() {
+        this.setBG("#b00e11");
+        this.spawnCultist(100, 100);
+    }
+}
+
+class WhaleMouth extends AdventureScene {
+    constructor() {
+        super("whalemouth", "You're surrounded by cultists trying to get you!");
+    }
     onEnter() {
         this.setBG("#b00e11");
     }
@@ -136,7 +147,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Demo1, Demo2, CultRoom, Outro],
+    scene: [Intro, Demo1, Demo2, CultRoom, WhaleMouth, Outro],
     title: "Adventure Game",
 });
 

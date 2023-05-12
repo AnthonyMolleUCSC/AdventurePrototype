@@ -5,6 +5,7 @@ class Demo1 extends AdventureScene {
 
     onEnter() {
 
+        this.setBG("#240200");
         let clip = this.add.text(this.w * 0.7, this.w * 0.1, "🥩")
             .setFontSize(this.s * 15)
             .setInteractive()
@@ -28,52 +29,45 @@ class Demo1 extends AdventureScene {
             .setFontSize(this.s * 2)
             .setInteractive()
             .on('pointerover', () => {
-                if (this.hasItem("key")) {
-                    this.showMessage("You've got the key for this door.");
-                } else {
-                    this.showMessage("It's locked. Can you find a key?");
-                }
+                this.showMessage("There seems to be something bright in the distance...");
             })
             .on('pointerdown', () => {
-                if (this.hasItem("key")) {
-                    this.loseItem("key");
-                    this.showMessage("*squeak*");
-                    door.setText("🚪 unlocked door");
+                    this.showMessage("You shine your torch around the room...");
+                    this.gainItem("Torch");
                     this.gotoScene('demo2');
-                }
             })
-
+            door.alpha = 0.5
     }
 }
 
 class Demo2 extends AdventureScene {
     constructor() {
-        super("demo2", "The second room has a long name (it truly does).");
+        super("demo2", "The room brightens. You find yourself in a storage room.");
     }
     onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
-            .setFontSize(this.s * 2)
+        this.setBG("#b00e11");
+
+        let door = this.add.text(this.w * -0.2, this.h * 0.2, "🚪")
+            .setFontSize(this.s * 40);
+        let lock = this.add.text(this.w * 0.05, this.h * 0.4, "🔒")
+            .setFontSize(this.s * 10)
             .setInteractive()
             .on('pointerover', () => {
-                this.showMessage("You've got no other choice, really.");
+                if (this.hasItem("Hammer"))
+                {
+                    this.showMessage("Perhaps you could smash the lock?")
+                }
+                else
+                {
+                    this.showMessage("You seem to be locked in here.");
+                }
             })
             .on('pointerdown', () => {
-                this.gotoScene('demo1');
-            });
 
-        let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage('*giggles*');
-                this.tweens.add({
-                    targets: finish,
-                    x: this.s + (this.h - 2 * this.s) * Math.random(),
-                    y: this.s + (this.h - 2 * this.s) * Math.random(),
-                    ease: 'Sine.inOut',
-                    duration: 500
-                });
+                    this.showMessage("You shine your torch around the room...");
+                    this.gotoScene('demo2');
             })
-            .on('pointerdown', () => this.gotoScene('outro'));
+            
     }
 }
 

@@ -63,11 +63,43 @@ class Demo2 extends AdventureScene {
                 }
             })
             .on('pointerdown', () => {
-
-                    this.showMessage("You shine your torch around the room...");
-                    this.gotoScene('demo2');
+                if (this.hasItem("Hammer"))
+                {
+                    this.showMessage("You smash the lock and rush out of the room!");
+                    this.gotoScene('cultroom');
+                }
+                else
+                {
+                    this.showMessage("Nothing happens.")
+                }
             })
-            
+        let hammer = this.add.text(this.w * 0.6, this.w * 0.45, "🔨")
+            .setFontSize(this.s * 20)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("It's a hammer.");
+            })
+            .on('pointerdown', () => {
+                    this.showMessage("You got a hammer.");
+                    this.gainItem("Hammer");
+                    this.tweens.add({
+                        targets: hammer,
+                        y: `-=${2 * this.s}`,
+                        alpha: { from: 1, to: 0 },
+                        duration: 500,
+                        onComplete: () => hammer.destroy()
+                    });
+            })
+            hammer.angle = 135;
+    }
+}
+
+class CultRoom extends AdventureScene {
+    constructor() {
+        super("cultroom", "You're surrounded by cultists trying to get you!");
+    }
+    onEnter() {
+        this.setBG("#b00e11");
     }
 }
 
@@ -104,7 +136,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Demo1, Demo2, Outro],
+    scene: [Intro, Demo1, Demo2, CultRoom, Outro],
     title: "Adventure Game",
 });
 

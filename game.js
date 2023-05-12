@@ -1,16 +1,16 @@
 class Demo1 extends AdventureScene {
     constructor() {
-        super("demo1", "First Room");
+        super("demo1", "You wake in a dark room...");
     }
 
     onEnter() {
 
-        let clip = this.add.text(this.w * 0.3, this.w * 0.3, "📎 paperclip")
-            .setFontSize(this.s * 2)
+        let clip = this.add.text(this.w * 0.7, this.w * 0.1, "🥩")
+            .setFontSize(this.s * 15)
             .setInteractive()
-            .on('pointerover', () => this.showMessage("Metal, bent."))
+            .on('pointerover', () => this.showMessage("There's some kind of wall here..."))
             .on('pointerdown', () => {
-                this.showMessage("No touching!");
+                this.showMessage("*squish*");
                 this.tweens.add({
                     targets: clip,
                     x: '+=' + this.s,
@@ -21,25 +21,10 @@ class Demo1 extends AdventureScene {
                 });
             });
 
-        let key = this.add.text(this.w * 0.5, this.w * 0.1, "🔑 key")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("It's a nice key.")
-            })
-            .on('pointerdown', () => {
-                this.showMessage("You pick up the key.");
-                this.gainItem('key');
-                this.tweens.add({
-                    targets: key,
-                    y: `-=${2 * this.s}`,
-                    alpha: { from: 1, to: 0 },
-                    duration: 500,
-                    onComplete: () => key.destroy()
-                });
-            })
+            clip.alpha = 0.2;
+            clip.angle = 90;
 
-        let door = this.add.text(this.w * 0.1, this.w * 0.15, "🚪 locked door")
+        let door = this.add.text(this.w * 0.1, this.w * 0.15, "🔥")
             .setFontSize(this.s * 2)
             .setInteractive()
             .on('pointerover', () => {

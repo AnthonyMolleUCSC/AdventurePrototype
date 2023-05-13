@@ -101,16 +101,84 @@ class CultRoom extends AdventureScene {
     
     onEnter() {
         this.setBG("#b00e11");
-        this.spawnCultist(100, 100);
+        this.spawnCultist(100, 123);
+        this.spawnCultist(745, 220);
+        this.spawnCultist(200, 632);
+        this.spawnCultist(600, 450);
+        this.spawnCultist(1000, 700);
     }
 }
 
 class WhaleMouth extends AdventureScene {
     constructor() {
-        super("whalemouth", "You're surrounded by cultists trying to get you!");
+        super("whalemouth", "You are confronted with a massive maw...");
     }
     onEnter() {
-        this.setBG("#b00e11");
+        this.open = false;
+        this.setBG("#a3051a");
+        let teeth1 = this.add.text(this.w * 0.06, this.h * 0.25, "🦷🦷🦷🦷🦷🦷🦷🦷🦷🦷🦷")
+            .setFontSize(this.s * 4.5)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("Them some big chompers!!!");
+            });
+
+        let teeth2 = this.add.text(this.w * 0.70, this.h * 0.40, "🦷🦷🦷🦷🦷🦷🦷🦷🦷🦷🦷")
+            .setFontSize(this.s * 4.5)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("Them some big chompers!!!");
+            });
+            teeth2.angle = 180;
+
+        let boat = this.add.text(this.w * 0.1, this.h * 0.70, "🛶")
+            .setFontSize(this.s * 8)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("There's a boat! Escape at last!");
+            })
+            .on('pointerdown', () =>
+            {
+                if (this.open == true)
+                {
+                    this.showMessage("Finally we can get out of here!");
+                    this.gotoScene("outro");
+                }
+                else
+                {
+                    this.showMessage("But the mouth is still closed...");
+                }
+            });
+
+        let scroll = this.add.text(this.w * .5, this.h * 0.60, "📜")
+            .setFontSize(this.s * 8)
+            .setInteractive()
+            .on('pointerover', () => 
+            {
+                this.showMessage("Some strange ancient scribblings...");
+            })
+            .on('pointerdown', () =>
+            {
+                this.showMessage("The Staff bursts, and the maw opens...");
+                this.loseItem("Staff");
+
+                this.tweens.add({
+                    targets: teeth1,
+                    y: 100,
+                    duration: 1500,
+                });
+                
+                this.tweens.add({
+                    targets: teeth2,
+                    y: 600,
+                    duration: 1500,
+                    onComplete: () => 
+                    {
+                        this.open = true;
+                    }
+                }
+                )
+            })
     }
 }
 
@@ -119,8 +187,8 @@ class Intro extends Phaser.Scene {
         super('intro')
     }
     create() {
-        this.add.text(50,50, "Adventure awaits!").setFontSize(50);
-        this.add.text(50,100, "Click anywhere to begin.").setFontSize(20);
+        this.add.text(50,50, "You've forgotten the past who knows how many hours...").setFontSize(50);
+        this.add.text(50,100, "Push forward into the darkness...\n(Click anywhere to begin)").setFontSize(35);
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0,0,0);
             this.time.delayedCall(1000, () => this.scene.start('demo1'));
@@ -133,8 +201,8 @@ class Outro extends Phaser.Scene {
         super('outro');
     }
     create() {
-        this.add.text(50, 50, "That's all!").setFontSize(50);
-        this.add.text(50, 100, "Click anywhere to restart.").setFontSize(20);
+        this.add.text(50, 50, "You escaped the cult in the mouth of a whale.").setFontSize(50);
+        this.add.text(50, 100, "You go home changed...\n(Click anywhere to restart)").setFontSize(35);
         this.input.on('pointerdown', () => this.scene.start('intro'));
     }
 }

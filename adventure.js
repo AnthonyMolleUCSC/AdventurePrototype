@@ -1,5 +1,7 @@
 class AdventureScene extends Phaser.Scene {
 
+    cultistNum = 5;
+
     init(data) {
         this.inventory = data.inventory || [];
     }
@@ -10,7 +12,7 @@ class AdventureScene extends Phaser.Scene {
     }
 
     create() {
-        this.transitionDuration = 500;
+        this.transitionDuration = 1500;
 
         this.w = this.game.config.width;
         this.h = this.game.config.height;
@@ -156,7 +158,7 @@ class AdventureScene extends Phaser.Scene {
     spawnCultist(x, y)
     {
         let cultist = this.add.text(x, y, "🧙")
-            .setFontSize(this.s * 20)
+            .setFontSize(this.s * 10)
             .setInteractive()
             .on('pointerover', () => {
                 this.showMessage("AHHH HE'S GONNA GET YOU!!!");
@@ -167,10 +169,36 @@ class AdventureScene extends Phaser.Scene {
                         targets: cultist,
                         angle: 359,
                         alpha: { from: 1, to: 0 },
-                        duration: 500,
-                        onComplete: () => cultist.destroy()
+                        duration: 750,
+                        onComplete: () => { cultist.destroy(); 
+                            
+                            this.cultistNum = this.cultistNum - 1;
+
+                            if (this.cultistNum <= 0)
+                            {
+                                this.spawnStaff(x, y);
+                            }
+                        }
                     });
+                    
             })
+    }
+
+    spawnStaff(x, y)
+    {
+        let staff = this.add.text(x, y, "🗡️")
+            .setFontSize(this.s * 10)
+            .setInteractive()
+            .on('pointerover', () => 
+            {
+                this.showMessage("Some strange ancient staff...");
+            })
+            .on('pointerdown', () =>
+            {
+                this.gainItem("Staff");
+                this.showMessage("You got the staff! Time to push forward...");
+                this.gotoScene('whalemouth');
+            });
     }
 
 }

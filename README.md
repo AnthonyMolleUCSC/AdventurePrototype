@@ -1,5 +1,10 @@
 A simple adventure game by Anthony Molle based on a simple adventure game engine by [Adam Smith](https://github.com/rndmcnlly).
 
+Changes made by myself:
+- Added a function which made it easy to spawn multiple of the same cultist enemy.
+- Added a method that, from that cultist method (if all the cultists were dead), would spawn an item for the player to pick up.
+- I added a function to more directly and easily change the background color for the user.
+
 Code requirements:
 - **4+ scenes based on `AdventureScene`**: unsatisfied (name at least 4 of the classes).
 - **2+ scenes *not* based on `AdventureScene`**: unsatisfied (name the classes).
